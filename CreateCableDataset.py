@@ -120,25 +120,17 @@ for image_path, cable_id, anomaly_label, mask_path, pass_id in zip(image_paths, 
             mask = torch.where(mask > 0, 1, 0)
             gt.extend(mask)
             
-print(total)
-print(dic_t)
-print(dic_a)
+# print(total) # 6023
+# print(dic_t) # {'1': 603, '2': 613, '3': 943}
+# print(dic_a) # {'1': 976, '2': 1077, '3': 1811}
 
-normal_one = torch.stack(training_images_one, dim=0)
-normal_two = torch.stack(training_images_two, dim=0)
-normal_tri = torch.stack(training_images_tri, dim=0)
-anomalies = torch.stack(anomaly_images, dim=0)
-a_gt = torch.stack(gt, dim=0)
+normal_one = torch.stack(training_images_one, dim=0) # [603, 3, 384, 768]
+normal_two = torch.stack(training_images_two, dim=0) # [613, 3, 384, 768]
+normal_tri = torch.stack(training_images_tri, dim=0) # [943, 3, 384, 768]
+anomalies = torch.stack(anomaly_images, dim=0) # [976, 3, 384, 768]
+a_gt = torch.stack(gt, dim=0) # [976, 1, 384, 768]
 
-print(normal_one.shape)
-print(normal_two.shape)
-print(normal_tri.shape)
-print(anomalies.shape)
-print(a_gt.shape)
-
-normal = torch.cat([normal_one, normal_two, normal_tri], dim=0)
-print(normal.shape)
-quit()
+normal = torch.cat([normal_one, normal_two, normal_tri], dim=0) # [2159, 3, 384, 768]
 
 torch.save(normal, os.path.join(f"allcables01_train.pt"))
 torch.save(anomalies, os.path.join(f"allcables01_test.pt"))
